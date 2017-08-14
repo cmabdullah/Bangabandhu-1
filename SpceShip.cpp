@@ -75,11 +75,77 @@ asan_blacklist.txt include            lib
 
 **/
 
+/**** RUN FROM TERMINAL   *****/
+/***
+➜  SpceShip pwd
+/Users/abdullah/desktop/GraphicsTesting
+➜  SpceShip ls
+Makefile           problem_opengl.cpp
+➜  SpceShip cat Makefile
+APPNAME = problem_opengl
 
-#include <stdio.h>
-#include <stdlib.h>
+CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
 
-int main(void) {
-	puts("Hello World!!!");
-	return EXIT_SUCCESS;
+OBJS =		${APPNAME}.o
+
+LIBS =
+
+LDFLAGS = -framework GLUT -framework OpenGL
+
+$(APPNAME):	$(OBJS)
+	g++ -o $(APPNAME) $(OBJS) $(LIBS) $(LDFLAGS)
+
+all:	$(APPNAME)
+
+clean:
+	rm -f $(OBJS) $(APPNAME)
+
+➜  SpceShip ls
+Makefile           problem_opengl.cpp
+➜  SpceShip make all
+c++ -O2 -g -Wall -fmessage-length=0   -c -o problem_opengl.o problem_opengl.cpp
+
+➜  SpceShip ls
+Makefile           problem_opengl     problem_opengl.cpp problem_opengl.o
+➜  SpceShip ./problem_opengl
+➜  SpceShip make all
+make: Nothing to be done for `all'.
+
+ */
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
+
+void init(){
+	glClearColor(2.0f,2.0f,1.0f,1.0f);
+	glOrtho(-30,30,-30,30,-30,30);
+}
+void myDisplay(){
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.0f ,0.0f, 0.0f);//print vertical red
+	glBegin(GL_QUADS);
+		glVertex3d(-1.0,9.0,0.0);
+		glVertex3d(-1.0,-9.0,0.0);
+		glVertex3d(1.0,-9.0,0.0);
+		glVertex3d(1.0,9.0,0.0);
+	glEnd();
+
+	glFlush();
+}
+
+int main(int argc,char*argv[]){
+glutInit(&argc,argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(200,200);
+	glutInitWindowPosition(100,100);
+	glutCreateWindow("Demo App");
+	init();
+	glutDisplayFunc(myDisplay);
+	glutMainLoop();
+	return 0;
 }
