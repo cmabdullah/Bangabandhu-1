@@ -1,15 +1,16 @@
+APPNAME = SpceShip
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
 
-OBJS =		SpceShip.o
+OBJS =		${APPNAME}.o
 
 LIBS =
 
-TARGET =	SpceShip
+LDFLAGS = -framework GLUT -framework OpenGL 
 
-$(TARGET):	$(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
+$(APPNAME):	$(OBJS)
+	g++ -o $(APPNAME) $(OBJS) $(LIBS) $(LDFLAGS)
 
-all:	$(TARGET)
+all:	$(APPNAME)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(APPNAME)
