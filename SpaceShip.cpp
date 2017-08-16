@@ -112,6 +112,26 @@ Makefile           problem_opengl     problem_opengl.cpp problem_opengl.o
 make: Nothing to be done for `all'.
 
  */
+/*******
+g++
+-I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers
+-I/usr/include -I/Library/Developer/CommandLineTools/usr/lib/llvm-gcc/4.2.1/include
+-I/usr/include/c++/4.2.1/backward -I/usr/include/c++/4.2.1 -I/usr/local/Cellar/llvm/4.0.1/include
+-I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers
+-O0 -g3 -Wall -c -fmessage-length=0
+-arch i386 -MMD -MP  -MF"SpceShip"
+-MT"SpceShip.o"  "SpceShip.o"  "SpceShip.cpp"
+ */
+/***
+g++ -L/usr/X11/lib -arch i386 -o  "SpceShip"  "SpceShip.o"  -lglu -lgl -lglut
+ * */
+
+/***
+ * -arch i386
+ * op1
+ * op2
+ * op3
+ * */
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -120,29 +140,58 @@ make: Nothing to be done for `all'.
 #endif
 
 
+
+float b_animx=0;
+float b_animy=0;
+float b2_animx=0;
+float b2_animy=0;
+void rectangle( float r, float g, float b, float fx, float fy,float sx, float sy, float tx, float ty, float fox, float foy)
+{
+    glColor3f(r,g,b);
+    glBegin(GL_POLYGON);
+    glVertex2f(fx,fy);
+    glVertex2f(sx,sy);
+    glVertex2f(tx,ty);
+    glVertex2f(fox,foy);
+    glEnd();
+}
+
+
+
+void boat1()
+{
+    glPushMatrix();
+    glTranslated(0,0.1,0);
+    glScaled(0.9,0.9,0);
+    rectangle(0.4,0.5,0.60, 0.08,0.51, 0.20,0.76, 0.52,0.55, 0.39,0.34);
+    glPopMatrix();
+}
 void init(){
-	glClearColor(2.0f,2.0f,1.0f,1.0f);
-	glOrtho(-30,30,-30,30,-30,30);
+	//screen color setup
+	    glClearColor(0.0,0.0,0.0,1.0);
+	    glClear(GL_COLOR_BUFFER_BIT);
+	glOrtho(0,1,0,1,0,1);
 }
 void myDisplay(){
 
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0f ,0.0f, 0.0f);//print vertical red
-	glBegin(GL_QUADS);
-		glVertex3d(-1.0,9.0,0.0);
-		glVertex3d(-1.0,-9.0,0.0);
-		glVertex3d(1.0,-9.0,0.0);
-		glVertex3d(1.0,9.0,0.0);
-	glEnd();
+    glClear(GL_COLOR_BUFFER_BIT);
 
+    glPushMatrix();
+    glTranslated(b2_animx,b2_animy,0);
+    boat1();
+    glPopMatrix();
+    if(b2_animx>=-0.7){
+         b2_animx=b2_animx-0.00005;
+    }
+       glutPostRedisplay();
 	glFlush();
 }
 
 int main(int argc,char*argv[]){
 glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize(200,200);
-	glutInitWindowPosition(100,100);
+	glutInitWindowSize(1024,720);
+	glutInitWindowPosition(1024,720);
 	glutCreateWindow("Demo App");
 	init();
 	glutDisplayFunc(myDisplay);
