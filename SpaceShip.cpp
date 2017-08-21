@@ -155,6 +155,8 @@ float animxT=0;
 float animyT=0;
 float animxB=0;
 float animyB=0;
+float cx=0;
+float cy=0;
 void circle(float r, float g, float b, float x, float y, float init, float last, float radx, float rady){
     glColor3f(r,g,b);
     glBegin(GL_POLYGON);
@@ -295,12 +297,21 @@ void rocketMotionD(){
 }
 
 
-void sun()
-{
+void sun(){
     circle(01,0,0,  0.78,-0.18,1,500,0.1,0.1);
 }
-
-
+void Mars(){//0.72,-0.33
+    circle(01,1.1,0,  0.72,-0.37,1,500,0.1,0.1);
+}
+void Capsul(){//0.72,-0.33
+    circle(1.1,1.1,0,  0.15,-0.27,1,500,0.02,0.02);
+}
+void CapsulMove(){
+	glPushMatrix();
+	Capsul();
+	glTranslated(0,0,0);
+	glPopMatrix();
+}
 void init(){
 	//screen color setup
 	    glClearColor(0.0,0.0,0.0,1.0);
@@ -369,16 +380,16 @@ void myDisplay(){
                 	animy=animy+0.0005;
              }
 
+            glPushMatrix();
+            glTranslated(animx,animy,0);
+            rocketMotionU();
 
-                glPushMatrix();
-                glTranslated(animx,animy,0);
-                rocketMotionU();
-                glPopMatrix();
-                	if(animy<=.3){
-                    	animy=animy+0.0005;
-                    	animyB=animyB+0.0005;
-                 }
-
+            glPopMatrix();
+            if(animy<=.4){
+                animy=animy+0.0005;
+                	animyB=animyB+0.0005;
+           }
+/**
 	                glPushMatrix();
 	                glTranslated(animxB,animyB,0);
 	                rocketMotionD();
@@ -386,9 +397,36 @@ void myDisplay(){
 	                	if(animyB>=.3){
 	                    	animyB=animyB-0.0005;
 	                 }
-
+**/
 
         }
+
+		if(animy>=.4){
+	   // 	cy = animy;
+			Mars();
+			//Capsul();
+		    if (cx >= 0 && cy >= 0){
+		        glPushMatrix();
+		        glTranslated(cx ,cy,0);
+		        Capsul();
+		        glPopMatrix();
+		        if(cx<=.5){
+		        	cx=cx+0.0005;
+		    }
+
+		        //repete spaceship
+	            glPushMatrix();
+	            glTranslated(animx,animy,0);
+	            rocketMotionU();
+	            glPopMatrix();
+	            if(animy<=.4){
+	                animy=animy+0.0005;
+	                	animyB=animyB+0.0005;
+	           }
+
+		}
+
+    }
 
 /***
 
