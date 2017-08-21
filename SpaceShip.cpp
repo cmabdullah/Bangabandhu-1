@@ -243,9 +243,6 @@ void tree(){
 	triangle(0,0.5,0.5,   0.69,-0.60,   0.68,-0.59,   0.65,-0.59);
 
 }
-
-
-
 void box(){
     glPushMatrix();
     glTranslated(0,0,0);
@@ -262,16 +259,12 @@ void box3(){
 	glTranslated(0,0.1,0);
 	glPopMatrix();
 }
-
-
 void box4(){
 	glPushMatrix();
 	box();
 	glTranslated(0,0.3,0);
 	glPopMatrix();
 }
-
-
 void rocketMotion(){
 	glPushMatrix();
     rocketTop();
@@ -332,7 +325,7 @@ void myDisplay(){
     field();
     sky();
     house();
-    box2();
+    //box2();
     frem();
 
 
@@ -419,14 +412,16 @@ void myDisplay(){
 	            glTranslated(animx,animy,0);
 	            rocketMotionU();
 	            glPopMatrix();
-	            if(animy<=.4){
-	                animy=animy+0.0005;
-	                	animyB=animyB+0.0005;
+	            if(animy<=1){
+	                animy=animy+0.00005;
 	           }
+	            //repete spaceship
 
 		}
 
+
     }
+
 
 /***
 
